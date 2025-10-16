@@ -7,25 +7,52 @@ canvas.height = 400;
 
 // Rectangle
 
-const drawRectangle = () => {
-    ctx.fillStyle = "rgb(0, 82, 171)";
-    let x = 100;
-    let y = 350;
-    let w = 4;
-    const MIN = 10;
-    const MAX = 250;
-    const FREQ = 100;
+class Bar {
+    constructor(x, y, w, h, color) {
+        this.x = x;
+        this.y = y;
+        this.w = w;
+        this.h = h;
+        this.color = color;
 
+        this.drawBar();
+    }
+
+    drawBar() {
+        ctx.fillStyle = this.color;
+        ctx.fillRect(this.x, this.y, this.w, this.h);
+    }
+}
+
+const X = 100;
+const Y = 350;
+const W = 4;
+const MIN = 10;
+const MAX = 250;
+const FREQ = 100;
+const BLUE = "rgb(0, 82, 171)";
+const RED = "rgba(171, 0, 0, 1)";
+let barArray = [];
+
+const setBarArray = () => {
     let h = getRandomArray(MIN, MAX, FREQ);
     for (let idx = 0; idx < FREQ; idx++) {
-        ctx.fillRect(x + idx * 6, y, w, -h[idx]);
+        let bar = new Bar(X + idx * 6, Y, W, -h[idx], BLUE);
+        barArray.push(bar);
     }
+}
+
+const drawRectangle = () => {
+
+    barArray.forEach(bar => {
+        bar.drawBar();
+    });
 }
 
 
 const init = () => {
-    // Your code
-    drawRectangle();
+    setBarArray();
+    // drawRectangle();
 };
 
 init();
@@ -33,8 +60,8 @@ init();
 // Animate function
 const animate = () => {
     requestAnimationFrame(animate);
-    // ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-    // Your code
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawRectangle();
 };
 
 animate();

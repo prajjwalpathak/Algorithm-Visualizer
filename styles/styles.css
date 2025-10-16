@@ -1,0 +1,22 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: rgb(26, 26, 26);
+}
+
+canvas {
+    background-color: rgb(51, 51, 51);
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu-section {
+    width: 100%;
+    height: 10rem;
+}

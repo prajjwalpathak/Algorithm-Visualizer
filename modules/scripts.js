@@ -5,8 +5,7 @@ const ctx = canvas.getContext("2d");
 canvas.width = 800;
 canvas.height = 400;
 
-// Rectangle
-
+// Bar Class
 class Bar {
     constructor(x, y, w, h, color) {
         this.x = x;
@@ -38,6 +37,7 @@ const RED = "rgba(171, 0, 0, 1)";
 const GREEN = "rgba(100, 171, 0, 1)";
 let barArray = [];
 
+// Initialize barArray
 const setBarArray = () => {
     let h = getRandomArray(MIN, MAX, FREQ);
     for (let idx = 0; idx < FREQ; idx++) {
@@ -46,22 +46,26 @@ const setBarArray = () => {
     }
 }
 
+// Draw barArray
 const drawBarArray = () => {
     barArray.forEach(bar => {
         bar.drawBar();
     });
 }
 
+// Change bar color
 const changeBarColor = (idx, color) => {
     barArray[idx].color = color;
 }
 
+// Switch bar color
 async function switchBackColor(idx, color) {
     changeBarColor(idx, color);
     await delay(DELAY);
     changeBarColor(idx, BLUE);
 }
 
+// Move bar color from start index to end index
 const moveColorBar = (startIdx, endIdx, color) => {
     for (let idx = startIdx; idx <= endIdx; idx++) {
         setTimeout(() => {
@@ -70,11 +74,13 @@ const moveColorBar = (startIdx, endIdx, color) => {
     }
 }
 
+// Swap bar values
 async function swapBar(firstBarIdx, secondBarIdx) {
     await delay(DELAY);
     [barArray[firstBarIdx].h, barArray[secondBarIdx].h] = [barArray[secondBarIdx].h, barArray[firstBarIdx].h];
 }
 
+// Find Minimum
 const findMinimum = (startIdx, endIdx) => {
     let min = Number.MAX_SAFE_INTEGER;
     let minIdx = 0;
@@ -133,16 +139,19 @@ const findMinimum = (startIdx, endIdx) => {
 //     }
 // }
 
+// Clear red bars (bruteforce fix)
 const clearRed = (startIdx, endIdx) => {
     for (let i = startIdx; i <= endIdx; i++) {
         changeBarColor(i, BLUE);
     }
 }
 
+// Add delay
 const delay = (ms) => {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+// Selection Sort
 async function selectionSort() {
     const n = FREQ;
 

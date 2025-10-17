@@ -42,16 +42,27 @@ const setBarArray = () => {
     }
 }
 
-const drawRectangle = () => {
-
+const drawBarArray = () => {
     barArray.forEach(bar => {
         bar.drawBar();
     });
 }
 
+const changeBarColor = (idx, color) => {
+    barArray[idx].color = color;
+}
+
+const switchBackColor = (idx, color) => {
+    changeBarColor(0,color);
+    setTimeout(()=>{
+        changeBarColor(idx,BLUE);
+    },1000);
+}
 
 const init = () => {
     setBarArray();
+    // changeBarColor(0,RED);
+    switchBackColor(0,RED);
     // drawRectangle();
 };
 
@@ -61,7 +72,7 @@ init();
 const animate = () => {
     requestAnimationFrame(animate);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawRectangle();
+    drawBarArray();
 };
 
 animate();

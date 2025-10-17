@@ -53,16 +53,24 @@ const changeBarColor = (idx, color) => {
 }
 
 const switchBackColor = (idx, color) => {
-    changeBarColor(0,color);
-    setTimeout(()=>{
-        changeBarColor(idx,BLUE);
-    },1000);
+    changeBarColor(idx, color);
+    setTimeout(() => {
+        changeBarColor(idx, BLUE);
+    }, 1000);
+}
+
+const moveColorBar = (startIdx, endIdx, color) => {
+    for (let idx = startIdx; idx <= endIdx; idx++) {
+        setTimeout(() => {
+            switchBackColor(idx, color);
+        }, idx * 1000);
+    }
 }
 
 const init = () => {
     setBarArray();
     // changeBarColor(0,RED);
-    switchBackColor(0,RED);
+    moveColorBar(0,10,RED);
     // drawRectangle();
 };
 

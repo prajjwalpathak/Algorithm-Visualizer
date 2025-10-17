@@ -23,7 +23,7 @@ class Bar {
     }
 }
 
-const DELAY = 10;
+const DELAY = 20;
 const FREQ = 50;
 const GAP = 2;
 const X = 100;
@@ -190,6 +190,70 @@ async function selectionSort() {
     console.log("Selection Sort Complete");
 }
 
+// Insertion Sort
+async function insertionSort() {
+    const n = FREQ;
+
+    for (let i = 1; i < n; i++) {
+        // clearRed(i, n - 1);
+        // let currIdx = i;
+        // changeBarColor(currIdx, RED);
+
+        // Step 1: Find if curr element at correct place
+        // for (let j = i + 1; j < n; j++) {
+        //     changeBarColor(j, RED);
+        //     await delay(DELAY);
+
+        //     if (-barArray[j].h < -barArray[minIdx].h) {
+        //         changeBarColor(minIdx, BLUE);
+        //         minIdx = j;
+        //         changeBarColor(minIdx, RED);
+        //     } else {
+        //         changeBarColor(j, BLUE);
+        //     }
+        // }
+        changeBarColor(0, GREEN);
+        await delay(DELAY);
+        // for (let j = i; j > 0; j--) {
+        //     changeBarColor(j, RED);
+        //     await delay(DELAY);
+        //     if (-barArray[j].h < -barArray[j - 1].h) {
+        //         changeBarColor(j, RED);
+        //         [barArray[j].h, barArray[j - 1].h] = [barArray[j - 1].h, barArray[j].h];
+        //         changeBarColor(j, GREEN);
+        //     }
+        //     else {
+        //         changeBarColor(j, GREEN);
+        //     }
+        // }
+        changeBarColor(0, GREEN);
+        let j = i;
+        changeBarColor(j, RED);
+        await delay(DELAY);
+        while (j > 0 && -barArray[j].h < -barArray[j - 1].h) {
+            await delay(DELAY);
+            [barArray[j].h, barArray[j - 1].h] = [barArray[j - 1].h, barArray[j].h];
+            [barArray[j].color, barArray[j - 1].color] = [barArray[j - 1].color, barArray[j].color];
+            j--;
+        }
+        changeBarColor(j, GREEN);
+
+        // Step 2: Swap with first unsorted
+        // if (minIdx !== i) {
+        //     await delay(DELAY);
+        //     [barArray[i].h, barArray[minIdx].h] = [barArray[minIdx].h, barArray[i].h];
+        // }
+
+        // Step 3: Mark as sorted
+        // changeBarColor(i, GREEN);
+        // drawBarArray();
+    }
+
+    // Mark last bar as sorted
+
+    console.log("Insertion Sort Complete");
+}
+
 const init = () => {
     setBarArray();
     // changeBarColor(0,RED);
@@ -197,7 +261,8 @@ const init = () => {
     // drawRectangle();
     // swapBar(0, 10);
     // findMin(0, FREQ - 1);
-    selectionSort();
+    // selectionSort();
+    insertionSort();
     // runWithDelay();
     // const genObj = valueGenerator();
     // console.log(genObj.next());

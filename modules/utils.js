@@ -12,4 +12,4 @@ export const getRandomArray = (min, max, freq) => {
         arr.push(getRandomInt(min, max));
     }
     return arr;
-} 
+}

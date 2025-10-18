@@ -23,7 +23,7 @@ class Bar {
     }
 }
 
-const DELAY = 100;
+const DELAY = 50;
 const FREQ = 50;
 const GAP = 2;
 const X = 100;
@@ -212,6 +212,32 @@ async function insertionSort() {
     console.log("Insertion Sort Complete");
 }
 
+// Bubble Sort
+async function bubbleSort() {
+    const n = FREQ;
+    await delay(DELAY);
+    for (let i = 0; i < n-1; i++) {
+        await delay(DELAY);
+        let j = 0;
+        for(j = 0; j < n-i-1; j++) {
+            await delay(DELAY);
+            changeBarColor(j, RED);
+            if(-barArray[j].h > -barArray[j + 1].h) {
+                [barArray[j].h, barArray[j + 1].h] = [barArray[j + 1].h, barArray[j].h];
+                [barArray[j].color, barArray[j + 1].color] = [barArray[j + 1].color, barArray[j].color];
+            }
+            else {
+                [barArray[j].color, barArray[j + 1].color] = [barArray[j + 1].color, barArray[j].color];
+            }
+        }
+        // Mark last bar as sorted
+        changeBarColor(j, GREEN);
+    }
+    // Mark first bar as sorted
+        changeBarColor(0, GREEN);
+    console.log("Bubble Sort Complete");
+}
+
 const init = () => {
     setBarArray();
     // changeBarColor(0,RED);
@@ -220,7 +246,8 @@ const init = () => {
     // swapBar(0, 10);
     // findMin(0, FREQ - 1);
     // selectionSort();
-    insertionSort();
+    // insertionSort();
+    bubbleSort();
     // runWithDelay();
     // const genObj = valueGenerator();
     // console.log(genObj.next());

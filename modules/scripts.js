@@ -201,6 +201,8 @@ async function mergeArray(arr, startIdx, midIdx, endIdx) {
     for (let i = startIdx + 1; i <= endIdx - 1; i++) {
         changeBarColor(i, BLUE);
     }
+
+    // temp array sizes
     const n1 = midIdx - startIdx + 1;
     const n2 = endIdx - midIdx;
 
@@ -210,12 +212,10 @@ async function mergeArray(arr, startIdx, midIdx, endIdx) {
 
     // Copy data to temp arrays L[] and R[]
     for (let i = 0; i < n1; i++) {
-        // await delay(DELAY);
         L[i] = -(arr[startIdx + i].h);
     }
 
     for (let j = 0; j < n2; j++) {
-        // await delay(DELAY);
         R[j] = -(arr[midIdx + 1 + j].h);
     }
 
@@ -223,7 +223,7 @@ async function mergeArray(arr, startIdx, midIdx, endIdx) {
     let j = 0;
     let k = startIdx;
 
-    // Merge the temp arrays back into arr[startIdx..endIdx]
+    // Merge the temp arrays back into original arr[startIdx..endIdx]
     while (i < n1 && j < n2) {
         await delay(DELAY);
         if (L[i] <= R[j]) {
@@ -233,6 +233,7 @@ async function mergeArray(arr, startIdx, midIdx, endIdx) {
             arr[k].h = -R[j];
             j++;
         }
+        // Keep start and end index RED
         if (k != startIdx && k != endIdx)
             changeBarColor(k, YELLOW);
         k++;
@@ -242,6 +243,7 @@ async function mergeArray(arr, startIdx, midIdx, endIdx) {
     while (i < n1) {
         await delay(DELAY);
         arr[k].h = -L[i];
+        // Keep start and end index RED
         if (k != startIdx && k != endIdx)
             changeBarColor(k, YELLOW);
         i++;
@@ -252,16 +254,14 @@ async function mergeArray(arr, startIdx, midIdx, endIdx) {
     while (j < n2) {
         await delay(DELAY);
         arr[k].h = -R[j];
+        // Keep start and end index RED
         if (k != startIdx && k != endIdx)
             changeBarColor(k, YELLOW);
         j++;
         k++;
     }
-
-    // To mark start and end index
-    changeBarColor(startIdx, RED);
-    changeBarColor(endIdx, RED);
-
+    
+    // Make complete sorted array GREEN
     if (endIdx - startIdx + 1 == FREQ) {
         for (let i = 0; i < FREQ; i++) {
             await delay(DELAY);
@@ -297,7 +297,7 @@ const init = () => {
     // selectionSort();
     // insertionSort();
     // bubbleSort();
-    // mergeSort();
+    mergeSort();
     // runWithDelay();
     // const genObj = valueGenerator();
     // console.log(genObj.next());

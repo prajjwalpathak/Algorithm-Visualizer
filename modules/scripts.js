@@ -23,7 +23,7 @@ class Bar {
     }
 }
 
-const DELAY = 50;
+const DELAY = 100;
 const FREQ = 50;
 const GAP = 2;
 const X = 100;
@@ -32,9 +32,10 @@ const W = (600 - (FREQ * GAP)) / FREQ;
 const MIN = 10;
 const MAX = 250;
 
-const BLUE = "rgb(0, 82, 171)";
+const BLUE = "rgba(0, 82, 171, 1)";
 const RED = "rgba(171, 0, 0, 1)";
 const GREEN = "rgba(100, 171, 0, 1)";
+const YELLOW = "rgba(255, 196, 0, 1)";
 let barArray = [];
 
 // Initialize barArray
@@ -92,52 +93,6 @@ const findMinimum = (startIdx, endIdx) => {
     }
     return minIdx;
 }
-
-// function* selectionSortGenerator(startIdx, endIdx) {
-//     let minIdx = findMinimum(startIdx, endIdx);
-//     yield 1
-//     findMin(startIdx, endIdx);
-//     yield 2
-//     swapBar(startIdx, minIdx);
-//     yield 3
-// }
-
-// const ss = () => {
-//     let i = 0;
-//     let ssInterval = setInterval(() => {
-//         let genObj = selectionSortGenerator(i, FREQ - 1);
-//         genObj.next();
-//         genObj.next();
-//         setTimeout(() => {
-//             genObj.next();
-//         }, (FREQ - i) * DELAY);
-
-//         i++;
-//         if (i == FREQ - 1) {
-//             clearInterval(ssInterval);
-//             console.log("SS complete");
-//         };
-//     }, (FREQ - i) * DELAY);
-// }
-
-
-
-// async function findMin(startIdx, endIdx) {
-//     let min = Number.MAX_SAFE_INTEGER;
-//     let minIdx = 0;
-//     for (let idx = startIdx; idx <= endIdx; idx++) {
-//         await delay(DELAY);
-//         if (-barArray[idx].h < min) {
-//             changeBarColor(minIdx, BLUE);
-//             min = -barArray[idx].h;
-//             minIdx = idx;
-//             changeBarColor(minIdx, RED);
-//         }
-//         else {
-//             switchBackColor(idx, RED);
-//         }
-//     }
-// }
 
 // Clear red bars (bruteforce fix)
 const clearRed = (startIdx, endIdx) => {
@@ -216,13 +171,13 @@ async function insertionSort() {
 async function bubbleSort() {
     const n = FREQ;
     await delay(DELAY);
-    for (let i = 0; i < n-1; i++) {
+    for (let i = 0; i < n - 1; i++) {
         await delay(DELAY);
         let j = 0;
-        for(j = 0; j < n-i-1; j++) {
+        for (j = 0; j < n - i - 1; j++) {
             await delay(DELAY);
             changeBarColor(j, RED);
-            if(-barArray[j].h > -barArray[j + 1].h) {
+            if (-barArray[j].h > -barArray[j + 1].h) {
                 [barArray[j].h, barArray[j + 1].h] = [barArray[j + 1].h, barArray[j].h];
                 [barArray[j].color, barArray[j + 1].color] = [barArray[j + 1].color, barArray[j].color];
             }
@@ -234,8 +189,102 @@ async function bubbleSort() {
         changeBarColor(j, GREEN);
     }
     // Mark first bar as sorted
-        changeBarColor(0, GREEN);
+    changeBarColor(0, GREEN);
     console.log("Bubble Sort Complete");
+}
+
+// Merge Algorithm
+async function mergeArray(arr, startIdx, midIdx, endIdx) {
+    changeBarColor(startIdx, RED);
+    changeBarColor(endIdx, RED);
+    // To show unsorted array
+    for (let i = startIdx + 1; i <= endIdx - 1; i++) {
+        changeBarColor(i, BLUE);
+    }
+    const n1 = midIdx - startIdx + 1;
+    const n2 = endIdx - midIdx;
+
+    // Create temp arrays
+    const L = new Array(n1);
+    const R = new Array(n2);
+
+    // Copy data to temp arrays L[] and R[]
+    for (let i = 0; i < n1; i++) {
+        // await delay(DELAY);
+        L[i] = -(arr[startIdx + i].h);
+    }
+
+    for (let j = 0; j < n2; j++) {
+        // await delay(DELAY);
+        R[j] = -(arr[midIdx + 1 + j].h);
+    }
+
+    let i = 0;
+    let j = 0;
+    let k = startIdx;
+
+    // Merge the temp arrays back into arr[startIdx..endIdx]
+    while (i < n1 && j < n2) {
+        await delay(DELAY);
+        if (L[i] <= R[j]) {
+            arr[k].h = -L[i];
+            i++;
+        } else {
+            arr[k].h = -R[j];
+            j++;
+        }
+        if (k != startIdx && k != endIdx)
+            changeBarColor(k, YELLOW);
+        k++;
+    }
+
+    // Copy the remaining elements of L[], if there are any
+    while (i < n1) {
+        await delay(DELAY);
+        arr[k].h = -L[i];
+        if (k != startIdx && k != endIdx)
+            changeBarColor(k, YELLOW);
+        i++;
+        k++;
+    }
+
+    // Copy the remaining elements of R[], if there are any
+    while (j < n2) {
+        await delay(DELAY);
+        arr[k].h = -R[j];
+        if (k != startIdx && k != endIdx)
+            changeBarColor(k, YELLOW);
+        j++;
+        k++;
+    }
+
+    // To mark start and end index
+    changeBarColor(startIdx, RED);
+    changeBarColor(endIdx, RED);
+
+    if (endIdx - startIdx + 1 == FREQ) {
+        for (let i = 0; i < FREQ; i++) {
+            await delay(DELAY);
+            changeBarColor(i, GREEN);
+        }
+    }
+}
+
+// Merge Sort
+async function divideArray(arr, startIdx, endIdx) {
+    if (startIdx >= endIdx)
+        return;
+
+    let midIdx = Math.floor(startIdx + (endIdx - startIdx) / 2);
+
+    await divideArray(arr, startIdx, midIdx);
+    await divideArray(arr, midIdx + 1, endIdx);
+    await mergeArray(arr, startIdx, midIdx, endIdx);
+}
+
+async function mergeSort() {
+    await divideArray(barArray, 0, FREQ - 1);
+    console.log("Merge Sort Complete");
 }
 
 const init = () => {
@@ -247,7 +296,8 @@ const init = () => {
     // findMin(0, FREQ - 1);
     // selectionSort();
     // insertionSort();
-    bubbleSort();
+    // bubbleSort();
+    // mergeSort();
     // runWithDelay();
     // const genObj = valueGenerator();
     // console.log(genObj.next());

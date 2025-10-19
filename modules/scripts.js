@@ -260,7 +260,7 @@ async function mergeArray(arr, startIdx, midIdx, endIdx) {
         j++;
         k++;
     }
-    
+
     // Make complete sorted array GREEN
     if (endIdx - startIdx + 1 == FREQ) {
         for (let i = 0; i < FREQ; i++) {
@@ -271,20 +271,50 @@ async function mergeArray(arr, startIdx, midIdx, endIdx) {
 }
 
 // Merge Sort
-async function divideArray(arr, startIdx, endIdx) {
+async function mergeSortHelper(arr, startIdx, endIdx) {
     if (startIdx >= endIdx)
         return;
 
     let midIdx = Math.floor(startIdx + (endIdx - startIdx) / 2);
 
-    await divideArray(arr, startIdx, midIdx);
-    await divideArray(arr, midIdx + 1, endIdx);
+    await mergeSortHelper(arr, startIdx, midIdx);
+    await mergeSortHelper(arr, midIdx + 1, endIdx);
     await mergeArray(arr, startIdx, midIdx, endIdx);
 }
 
 async function mergeSort() {
-    await divideArray(barArray, 0, FREQ - 1);
+    await mergeSortHelper(barArray, 0, FREQ - 1);
     console.log("Merge Sort Complete");
+}
+
+// Partition Algorithm
+async function partition(arr, startIdx, endIdx) {
+    let pivot = -arr[endIdx];
+    let i = startIdx;
+    for (let j = startIdx; j <= endIdx - 1; j++) {
+        await delay(DELAY);
+        if (-arr[j].h < pivot) {
+            [arr[i].h, arr[j].h] = [arr[j].h, arr[i].h];
+            i++;
+        }
+    }
+    [arr[i].h, arr[endIdx].h] = [arr[endIdx].h, arr[i].h];
+    return i;
+}
+
+// Quick Sort
+async function quickSortHelper(arr, startIdx, endIdx) {
+    if (startIdx < endIdx) {
+        let pivotIdx = await partition(arr, startIdx, endIdx);
+
+        await quickSortHelper(arr, startIdx, pivotIdx - 1);
+        await quickSortHelper(arr, pivotIdx + 1, endIdx);
+    }
+}
+
+async function quickSort() {
+    await quickSortHelper(barArray, 0, FREQ - 1);
+    console.log("Quick Sort Complete");
 }
 
 const init = () => {
@@ -297,7 +327,8 @@ const init = () => {
     // selectionSort();
     // insertionSort();
     // bubbleSort();
-    mergeSort();
+    // mergeSort();
+    quickSort();
     // runWithDelay();
     // const genObj = valueGenerator();
     // console.log(genObj.next());

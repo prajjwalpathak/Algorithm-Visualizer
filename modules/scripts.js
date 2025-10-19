@@ -36,6 +36,7 @@ const BLUE = "rgba(0, 82, 171, 1)";
 const RED = "rgba(171, 0, 0, 1)";
 const GREEN = "rgba(100, 171, 0, 1)";
 const YELLOW = "rgba(255, 196, 0, 1)";
+const ORANGE = "rgba(190, 108, 0, 1)";
 let barArray = [];
 
 // Initialize barArray
@@ -289,17 +290,21 @@ async function mergeSort() {
 
 // Partition Algorithm
 async function partition(arr, startIdx, endIdx) {
-    changeBarColor(endIdx, RED);
+    changeBarColor(endIdx, ORANGE);
     let pivot = -arr[endIdx].h;
     let i = startIdx;
     for (let j = startIdx; j <= endIdx - 1; j++) {
+        if (j != endIdx)
+            switchBackColor(j, RED);
         await delay(DELAY);
         if (-arr[j].h < pivot) {
             [arr[i].h, arr[j].h] = [arr[j].h, arr[i].h];
             i++;
         }
     }
+    changeBarColor(endIdx, BLUE);
     [arr[i].h, arr[endIdx].h] = [arr[endIdx].h, arr[i].h];
+    changeBarColor(i, YELLOW);
     return i;
 }
 
@@ -307,7 +312,7 @@ async function partition(arr, startIdx, endIdx) {
 async function quickSortHelper(arr, startIdx, endIdx) {
     if (startIdx < endIdx) {
         let pivotIdx = await partition(arr, startIdx, endIdx);
-        changeBarColor(pivotIdx,YELLOW);
+        changeBarColor(pivotIdx, YELLOW);
         await quickSortHelper(arr, startIdx, pivotIdx - 1);
         await quickSortHelper(arr, pivotIdx + 1, endIdx);
     }
@@ -315,6 +320,10 @@ async function quickSortHelper(arr, startIdx, endIdx) {
 
 async function quickSort() {
     await quickSortHelper(barArray, 0, FREQ - 1);
+    for (let i = 0; i < FREQ; i++) {
+        await delay(DELAY);
+        changeBarColor(i, GREEN);
+    }
     console.log("Quick Sort Complete");
 }
 

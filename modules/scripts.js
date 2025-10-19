@@ -289,7 +289,8 @@ async function mergeSort() {
 
 // Partition Algorithm
 async function partition(arr, startIdx, endIdx) {
-    let pivot = -arr[endIdx];
+    changeBarColor(endIdx, RED);
+    let pivot = -arr[endIdx].h;
     let i = startIdx;
     for (let j = startIdx; j <= endIdx - 1; j++) {
         await delay(DELAY);
@@ -306,7 +307,7 @@ async function partition(arr, startIdx, endIdx) {
 async function quickSortHelper(arr, startIdx, endIdx) {
     if (startIdx < endIdx) {
         let pivotIdx = await partition(arr, startIdx, endIdx);
-
+        changeBarColor(pivotIdx,YELLOW);
         await quickSortHelper(arr, startIdx, pivotIdx - 1);
         await quickSortHelper(arr, pivotIdx + 1, endIdx);
     }

@@ -8,12 +8,12 @@ canvas.height = 400;
 
 const btn = document.getElementsByClassName("btn");
 document.addEventListener("click", (e)=> {
-    for(let i=0; i<5; i++) {
-        btn[i].classList.remove("highlight");
-    }
     let button = document.getElementById(e.target.id);
     if(button != null)
-        button.classList.add("highlight");
+        for(let i=0; i<5; i++) {
+            btn[i].classList.remove("highlight");
+        }
+    button.classList.add("highlight");
 });
 // console.log(btn[0].id);
 

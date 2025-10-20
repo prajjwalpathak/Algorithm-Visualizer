@@ -2,7 +2,42 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+body {
     background-color: rgb(26, 26, 26);
+    color: rgb(75, 75, 75);
+    font-family: "Roboto Mono", "Roboto Mono", "Vazirmatn", monospace;
+}
+
+button {
+    /* Remove default background and border */
+    background: none;
+    border: none;
+
+    /* Remove default padding and margin */
+    padding: 0;
+    margin: 0;
+
+    /* Remove default text styling */
+    font: inherit;
+    /* Inherit font properties from parent */
+    color: inherit;
+    /* Inherit color from parent */
+    text-align: inherit;
+    /* Inherit text alignment */
+
+    /* Remove outline on focus */
+    outline: none;
+
+    /* Remove default cursor style */
+    cursor: pointer;
+    /* Or 'default' if you don't want a pointer */
+
+    /* Reset appearance for cross-browser consistency */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
 }
 
 canvas {
@@ -19,4 +54,12 @@ canvas {
 .menu-section {
     width: 100%;
     height: 10rem;
+}
+
+button:hover {
+    color: rgb(151, 151, 151);
+}
+
+.highlight {
+    color: rgb(151, 151, 151);
 }

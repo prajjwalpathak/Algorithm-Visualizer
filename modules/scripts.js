@@ -5,6 +5,19 @@ const ctx = canvas.getContext("2d");
 canvas.width = 800;
 canvas.height = 400;
 
+
+const btn = document.getElementsByClassName("btn");
+document.addEventListener("click", (e)=> {
+    for(let i=0; i<5; i++) {
+        btn[i].classList.remove("highlight");
+    }
+    let button = document.getElementById(e.target.id);
+    if(button != null)
+        button.classList.add("highlight");
+});
+// console.log(btn[0].id);
+
+
 // Bar Class
 class Bar {
     constructor(x, y, w, h, color) {
@@ -23,8 +36,8 @@ class Bar {
     }
 }
 
-const DELAY = 100;
-const FREQ = 50;
+const DELAY = 20;
+const FREQ = 150;
 const GAP = 2;
 const X = 100;
 const Y = 350;
@@ -338,7 +351,7 @@ const init = () => {
     // insertionSort();
     // bubbleSort();
     // mergeSort();
-    quickSort();
+    // quickSort();
     // runWithDelay();
     // const genObj = valueGenerator();
     // console.log(genObj.next());

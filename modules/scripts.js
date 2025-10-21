@@ -39,6 +39,18 @@ class Bar {
     drawBar() {
         ctx.fillStyle = this.color;
         ctx.fillRect(this.x, this.y, this.w, this.h);
+
+        ctx.font = `bold 0.7rem "Roboto Mono", "Roboto Mono", "Vazirmatn", monospace`;
+        ctx.fillStyle = '#979797ff'; // Sets the fill color for the text
+        ctx.textAlign = 'center'; // Aligns text horizontally
+        ctx.textBaseline = 'middle'; // Aligns text vertically
+
+        let text = `${-this.h}`;
+        let textX = this.x + this.w / 2;
+        let textY = this.y + 12;
+        if (FREQ <= 20) {
+            ctx.fillText(text, textX, textY); // Draws filled text
+        }
     }
 }
 

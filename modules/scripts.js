@@ -5,12 +5,13 @@ const ctx = canvas.getContext("2d");
 canvas.width = 800;
 canvas.height = 360;
 
-const DELAY = 20;
-const FREQ = 150;
+let SPEED = 0.8;
+let DELAY = (1 / SPEED) * 10;
+let FREQ = 120;
 const GAP = 2;
 const X = 100;
 const Y = 320;
-const W = (600 - (FREQ * GAP)) / FREQ;
+let W = (600 - (FREQ * GAP)) / FREQ;
 const MIN = 10;
 const MAX = 250;
 
@@ -370,6 +371,8 @@ animate();
 
 const btn = document.getElementsByClassName("btn");
 const startBtn = document.getElementById("start-btn");
+const freqIp = document.getElementById("freq");
+const sppedIp = document.getElementById("speed");
 let algoButton = [];
 
 const addButtonId = (id) => {
@@ -391,16 +394,29 @@ document.addEventListener("click", (e) => {
     if (e.target.id == "selection-sort-btn" || "insertion-sort-btn" || "bubble-sort-btn" || "merge-sort-btn" || "quick-sort-btn") {
         init();
     }
-    if(e.target.id == "start-btn") {
-        if(algoButton.at(-1) == "selection-sort-btn")
+    if (e.target.id == "start-btn") {
+        if (algoButton.at(-1) == "selection-sort-btn")
             selectionSort();
-        else if(algoButton.at(-1) == "insertion-sort-btn")
+        else if (algoButton.at(-1) == "insertion-sort-btn")
             insertionSort();
-        else if(algoButton.at(-1) == "bubble-sort-btn")
+        else if (algoButton.at(-1) == "bubble-sort-btn")
             bubbleSort();
-        else if(algoButton.at(-1) == "merge-sort-btn")
+        else if (algoButton.at(-1) == "merge-sort-btn")
             mergeSort();
-        else if(algoButton.at(-1) == "quick-sort-btn")
+        else if (algoButton.at(-1) == "quick-sort-btn")
             quickSort();
     }
+});
+
+document.addEventListener("change", (e) => {
+    if (e.target.id == "freq") {
+        FREQ = e.target.value;
+        document.getElementById("freq-value").innerHTML = FREQ;
+    }
+    if (e.target.id == "speed") {
+        SPEED = e.target.value;
+        DELAY = (1 / SPEED) * 10;
+        document.getElementById("speed-value").innerHTML = SPEED;
+    }
+    W = (600 - (FREQ * GAP)) / FREQ;
 });

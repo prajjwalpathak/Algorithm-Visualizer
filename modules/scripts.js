@@ -6,7 +6,7 @@ canvas.width = 800;
 canvas.height = 360;
 
 let SPEED = 0.8;
-let DELAY = (1 / SPEED) * 10;
+let DELAY = (1 / SPEED) * 25;
 let FREQ = 120;
 const GAP = 2;
 const X = 100;
@@ -80,11 +80,11 @@ async function switchBackColor(idx, color) {
 //     }
 // }
 
-// Swap bar values
-async function swapBar(firstBarIdx, secondBarIdx) {
-    await delay(DELAY);
-    [barArray[firstBarIdx].h, barArray[secondBarIdx].h] = [barArray[secondBarIdx].h, barArray[firstBarIdx].h];
-}
+// // Swap bar values
+// async function swapBar(firstBarIdx, secondBarIdx) {
+//     await delay(DELAY);
+//     [barArray[firstBarIdx].h, barArray[secondBarIdx].h] = [barArray[secondBarIdx].h, barArray[firstBarIdx].h];
+// }
 
 // Find Minimum
 const findMinimum = (startIdx, endIdx) => {
@@ -367,12 +367,12 @@ const animate = () => {
 
 animate();
 
-// Event Listeners
+// Event Listeners and DOM elements
 
 const btn = document.getElementsByClassName("btn");
 const startBtn = document.getElementById("start-btn");
 const freqIp = document.getElementById("freq");
-const sppedIp = document.getElementById("speed");
+const speedIp = document.getElementById("speed");
 let algoButton = [];
 
 const addButtonId = (id) => {
@@ -381,9 +381,11 @@ const addButtonId = (id) => {
     algoButton.push(id);
 }
 
+// For button input
 document.addEventListener("click", (e) => {
     let button = document.getElementById(e.target.id);
-    if (button != null && e.target.id != "start-btn") {
+
+    if (button != null && e.target.id != "start-btn" && e.target.id != "freq" && e.target.id != "freq-value" && e.target.id != "speed" && e.target.id != "speed-value") {
         addButtonId(e.target.id);
         for (let i = 0; i < 5; i++) {
             btn[i].classList.remove("highlight");
@@ -391,32 +393,49 @@ document.addEventListener("click", (e) => {
         button.classList.add("highlight");
     }
 
-    if (e.target.id == "selection-sort-btn" || "insertion-sort-btn" || "bubble-sort-btn" || "merge-sort-btn" || "quick-sort-btn") {
+    if (e.target.id == "selection-sort-btn" || e.target.id == "insertion-sort-btn" || e.target.id == "bubble-sort-btn" || e.target.id == "merge-sort-btn" || e.target.id == "quick-sort-btn") {
         init();
     }
     if (e.target.id == "start-btn") {
-        if (algoButton.at(-1) == "selection-sort-btn")
+        if (algoButton.at(-1) == "selection-sort-btn") {
+            init();
             selectionSort();
-        else if (algoButton.at(-1) == "insertion-sort-btn")
+        }
+        else if (algoButton.at(-1) == "insertion-sort-btn") {
+            init();
             insertionSort();
-        else if (algoButton.at(-1) == "bubble-sort-btn")
+        }
+        else if (algoButton.at(-1) == "bubble-sort-btn") {
+            init();
             bubbleSort();
-        else if (algoButton.at(-1) == "merge-sort-btn")
+        }
+        else if (algoButton.at(-1) == "merge-sort-btn") {
+            init();
             mergeSort();
-        else if (algoButton.at(-1) == "quick-sort-btn")
+        }
+        else if (algoButton.at(-1) == "quick-sort-btn") {
+            init();
             quickSort();
+        }
     }
 });
 
-document.addEventListener("change", (e) => {
-    if (e.target.id == "freq") {
-        FREQ = e.target.value;
-        document.getElementById("freq-value").innerHTML = FREQ;
-    }
-    if (e.target.id == "speed") {
-        SPEED = e.target.value;
-        DELAY = (1 / SPEED) * 10;
-        document.getElementById("speed-value").innerHTML = SPEED;
-    }
+
+// For Slider input
+
+const changeFrequency = (value) => {
+    FREQ = value;
+    document.getElementById("freq-value").innerHTML = FREQ;
     W = (600 - (FREQ * GAP)) / FREQ;
-});
+    init();
+}
+
+const changeSpeed = (value) => {
+    SPEED = value;
+    DELAY = (1 / SPEED) * 25;
+    document.getElementById("speed-value").innerHTML = SPEED;
+}
+
+freqIp.addEventListener("input", (e) => changeFrequency(e.target.value));
+
+speedIp.addEventListener("input", (e) => changeSpeed(e.target.value));

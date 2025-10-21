@@ -3,20 +3,25 @@ import { getRandomArray } from "./utils.js";
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 canvas.width = 800;
-canvas.height = 400;
+canvas.height = 360;
 
+const DELAY = 20;
+const FREQ = 150;
+const GAP = 2;
+const X = 100;
+const Y = 320;
+const W = (600 - (FREQ * GAP)) / FREQ;
+const MIN = 10;
+const MAX = 250;
 
-const btn = document.getElementsByClassName("btn");
-document.addEventListener("click", (e)=> {
-    let button = document.getElementById(e.target.id);
-    if(button != null)
-        for(let i=0; i<5; i++) {
-            btn[i].classList.remove("highlight");
-        }
-    button.classList.add("highlight");
-});
-// console.log(btn[0].id);
+const BLUE = "rgba(0, 82, 171, 1)";
+const RED = "rgba(171, 0, 0, 1)";
+const GREEN = "rgba(100, 171, 0, 1)";
+const YELLOW = "rgba(255, 196, 0, 1)";
+const ORANGE = "rgba(190, 108, 0, 1)";
 
+let barArray = [];
+let timeoutArray = [];
 
 // Bar Class
 class Bar {
@@ -36,24 +41,9 @@ class Bar {
     }
 }
 
-const DELAY = 20;
-const FREQ = 150;
-const GAP = 2;
-const X = 100;
-const Y = 350;
-const W = (600 - (FREQ * GAP)) / FREQ;
-const MIN = 10;
-const MAX = 250;
-
-const BLUE = "rgba(0, 82, 171, 1)";
-const RED = "rgba(171, 0, 0, 1)";
-const GREEN = "rgba(100, 171, 0, 1)";
-const YELLOW = "rgba(255, 196, 0, 1)";
-const ORANGE = "rgba(190, 108, 0, 1)";
-let barArray = [];
-
 // Initialize barArray
 const setBarArray = () => {
+    barArray = [];
     let h = getRandomArray(MIN, MAX, FREQ);
     for (let idx = 0; idx < FREQ; idx++) {
         let bar = new Bar(X + idx * (W + GAP), Y, W, -h[idx], BLUE);
@@ -80,14 +70,14 @@ async function switchBackColor(idx, color) {
     changeBarColor(idx, BLUE);
 }
 
-// Move bar color from start index to end index
-const moveColorBar = (startIdx, endIdx, color) => {
-    for (let idx = startIdx; idx <= endIdx; idx++) {
-        setTimeout(() => {
-            switchBackColor(idx, color);
-        }, idx * DELAY);
-    }
-}
+// // Move bar color from start index to end index
+// const moveColorBar = (startIdx, endIdx, color) => {
+//     for (let idx = startIdx; idx <= endIdx; idx++) {
+//         setTimeout(() => {
+//             switchBackColor(idx, color);
+//         }, idx * DELAY);
+//     }
+// }
 
 // Swap bar values
 async function swapBar(firstBarIdx, secondBarIdx) {
@@ -117,7 +107,17 @@ const clearRed = (startIdx, endIdx) => {
 
 // Add delay
 const delay = (ms) => {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise(resolve => {
+        let timeoutId = setTimeout(resolve, ms);
+        timeoutArray.push(timeoutId);
+    });
+}
+
+const clearAllTimeout = () => {
+    timeoutArray.forEach(timeoutId => {
+        clearTimeout(timeoutId);
+    });
+    timeoutArray.length = 0;
 }
 
 // Selection Sort
@@ -341,6 +341,7 @@ async function quickSort() {
 }
 
 const init = () => {
+    clearAllTimeout();
     setBarArray();
     // changeBarColor(0,RED);
     // moveColorBar(0,10,RED);
@@ -352,17 +353,9 @@ const init = () => {
     // bubbleSort();
     // mergeSort();
     // quickSort();
-    // runWithDelay();
-    // const genObj = valueGenerator();
-    // console.log(genObj.next());
-    // console.log(genObj.next());
-    // setTimeout(() => {
-    //     console.log(genObj.next());
-    // }, FREQ * DELAY);
-    // ss();
 };
 
-init();
+// init();
 
 // Animate function
 const animate = () => {
@@ -372,3 +365,42 @@ const animate = () => {
 };
 
 animate();
+
+// Event Listeners
+
+const btn = document.getElementsByClassName("btn");
+const startBtn = document.getElementById("start-btn");
+let algoButton = [];
+
+const addButtonId = (id) => {
+    if (algoButton.length > 100)
+        algoButton.length = 0;
+    algoButton.push(id);
+}
+
+document.addEventListener("click", (e) => {
+    let button = document.getElementById(e.target.id);
+    if (button != null && e.target.id != "start-btn") {
+        addButtonId(e.target.id);
+        for (let i = 0; i < 5; i++) {
+            btn[i].classList.remove("highlight");
+        }
+        button.classList.add("highlight");
+    }
+
+    if (e.target.id == "selection-sort-btn" || "insertion-sort-btn" || "bubble-sort-btn" || "merge-sort-btn" || "quick-sort-btn") {
+        init();
+    }
+    if(e.target.id == "start-btn") {
+        if(algoButton.at(-1) == "selection-sort-btn")
+            selectionSort();
+        else if(algoButton.at(-1) == "insertion-sort-btn")
+            insertionSort();
+        else if(algoButton.at(-1) == "bubble-sort-btn")
+            bubbleSort();
+        else if(algoButton.at(-1) == "merge-sort-btn")
+            mergeSort();
+        else if(algoButton.at(-1) == "quick-sort-btn")
+            quickSort();
+    }
+});

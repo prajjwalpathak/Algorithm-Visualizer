@@ -6,7 +6,7 @@
 
 body {
     background-color: rgb(26, 26, 26);
-    color: rgb(75, 75, 75);
+    color: rgb(151, 151, 151);
     font-family: "Roboto Mono", "Roboto Mono", "Vazirmatn", monospace;
     line-height: 1.6rem;
 }
@@ -41,8 +41,12 @@ button {
     appearance: none;
 }
 
+a {
+    text-decoration: none;
+}
+
 canvas {
-    background-color: rgb(51, 51, 51);
+    background-color: rgb(40, 40, 40);
 }
 
 .main {
@@ -63,6 +67,15 @@ canvas {
     margin: 1rem;
 }
 
+.canvas-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.range-section {
+    display: flex;
+}
+
 .btn {
     margin: 1rem;
     padding: 0.5rem;
@@ -70,10 +83,29 @@ canvas {
     font-weight: bold;
 }
 
+.start-btn {
+    margin: 1rem;
+    padding: 0.5rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.range {
+    margin: 0.5rem;
+    padding: 0.5rem;
+}
+
+.slider-details {
+    display: flex;
+    width: 8rem;
+    justify-content: space-between;
+    font-weight: bold;
+}
+
 button:hover {
-    color: rgb(151, 151, 151);
+    color: #e2b714;
 }
 
 .highlight {
-    color: rgb(151, 151, 151);
+    color: #E2B714;
 }

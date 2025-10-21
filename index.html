@@ -12,20 +12,40 @@
 <body>
     <div class="main">
         <section class="menu-section">
-            <h1 class="title">Algorithm Visualizer</h1>
+            <a href="index.html">
+                <h1 class="title">Algorithm Visualizer</h1>
+            </a>
             <section class="button-section">
-                <button id="btn-1" class="btn">Selection Sort</button>
-                <button id="btn-2" class="btn">Insertion Sort</button>
-                <button id="btn-3" class="btn">Bubble Sort</button>
-                <button id="btn-4" class="btn">Merge Sort</button>
-                <button id="btn-5" class="btn">Quick Sort</button>
+                <button id="selection-sort-btn" class="btn">Selection Sort</button>
+                <button id="insertion-sort-btn" class="btn">Insertion Sort</button>
+                <button id="bubble-sort-btn" class="btn">Bubble Sort</button>
+                <button id="merge-sort-btn" class="btn">Merge Sort</button>
+                <button id="quick-sort-btn" class="btn">Quick Sort</button>
             </section>
         </section>
         <section class="canvas-section">
-            <canvas width="800" height="400"></canvas>
+            <section class="range-section">
+                <div class="range">
+                    <div class="slider-details">
+                        <p class="freq-title">Frequency</p>
+                        <div id="freq-value" class="freq-value">10</div>
+                    </div>
+                    <input id="freq" type="range" min="10" max="200" step="10">
+                </div>
+                <div class="range">
+                    <div class="slider-details">
+                        <p class="speed-title">Speed</p>
+                        <div id="speed-value" class="speed-value">0.01</div>
+                    </div>
+                    <input id="speed" type="range" min="0.01" max="1" step="0.01">
+                </div>
+                <button id="start-btn" class="start-btn">Start</button>
+            </section>
+            <canvas width="800" height="360"></canvas>
         </section>
     </div>
 </body>
 <script src="modules/scripts.js" type="module"></script>
 <script src="modules/utils.js" type="module"></script>
+
 </html>

@@ -1,4 +1,4 @@
 # Algorithm-Visualizer
 Algorithm Visualization Tool using HTML Canvas
 
-https://prajjwalpathak.github.io/
+https://prajjwalpathak.github.io/Algorithm-Visualizer
